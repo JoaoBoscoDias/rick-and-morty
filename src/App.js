@@ -27,6 +27,41 @@ const mock = [
 function App() {
   const [conteudo, setConteudo] = useState(<></>);
 
+  function traduzirStatus(status){
+    switch (status) {
+      case 'Alive':
+          return 'Vivo'
+      case 'unknown':
+          return 'Desconhecido'
+      case 'Dead':
+          return 'Morto'
+      default:
+        return status
+    }
+  }
+
+  function traduzirSpecies(species){
+    switch (species) {
+      case 'Human':
+          return 'Humano'
+      default:
+        return species
+    }
+  }
+
+  function traduzirGender(gender){
+    switch (gender) {
+      case 'Male':
+          return 'Macho'
+      case 'Female':
+          return 'Fêmea'
+      case 'unknown':
+          return 'Desconhecido'
+      default:
+        return gender
+    }
+  }
+
   async function carregarTodosOsPersonagens() {
     const retorno = await fetch(
       "https://rickandmortyapi.com/api/character",
@@ -52,21 +87,23 @@ function App() {
         </p>
         <p>
           <strong>Espécie: </strong>
-          {personagem.species}
+          {traduzirSpecies(personagem.species)}
         </p>
         <p>
           <strong>Genero: </strong>
-          {personagem.gender}
+          {traduzirGender(personagem.gender)}
         </p>
         <p>
           <strong>Participação: </strong>
           {personagem.episode.map(ep => (
-            <>b</>
+            <span key={personagem.name+(ep.split('episode/')[1])}>
+              Ep-{(ep.split('episode/')[1])}
+            </span>
           ))}
         </p>
         <p>
           <strong>Status: </strong>
-          {personagem.status}
+          {traduzirStatus(personagem.status)}
         </p>
       </div>
     ));
